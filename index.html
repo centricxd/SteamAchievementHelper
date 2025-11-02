@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam Achievements Helper</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Meta description for SEO -->
+    <meta name="description" content="Fetch and track Steam achievements for any game with ease.">
+
+    <!-- Social sharing tags -->
+    <meta property="og:title" content="Steam Achievements Helper">
+    <meta property="og:description" content="Fetch and track Steam achievements for any game with ease.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="og-image.png">
+    <!-- <meta property="og:url" content="https://yourdomain.com"> -->
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Steam Achievements Helper">
+    <meta name="twitter:description" content="Fetch and track Steam achievements for any game with ease.">
+    <meta name="twitter:image" content="og-image.png">
+
+    <!-- JS fallback notice for users with JS disabled -->
+    <noscript>
+        <style>
+            body::before {
+                content: "⚠️ JavaScript is required for this app!";
+                display: block;
+                color: #f44;
+                font-weight: bold;
+                padding: 20px;
+                text-align: center;
+            }
+        </style>
+    </noscript>
+</head>
+
+<body>
+    <div id="container">
+        <h2 >Steam Achievements Helper</h2>
+
+        <div class="aboveBar">
+            <div class="login" style="display: flex; gap: 8px;">
+                <div class="inputGroup">
+                    <input type="text" id="appIdInput" placeholder="Enter AppID">
+                    <input type="text" id="steamIdInput" placeholder="Enter SteamID">
+                </div>
+                <button id="fetchBtn">Fetch Achievements</button>
+            </div>
+            <div class="gameChip hidden">
+                <img src="game-image.jpg" alt="Game Cover">
+                <div class="chipDetails">
+                    <h3>Game Title</h3>
+                    <p class="chipDesc">Short description, achievements, story or gameplay info.</p>
+                    <div class="chipProgress">
+                        <div class="progressContainer">
+                            <div id="progressBar" class="progressBar" style="width: 65%;"></div>
+                        </div>
+                        <span class="progressText">65%</span>
+                    </div>
+                    <div class="chipTags">
+                        <span class="tag achieved">Unlocked</span>
+                        <span class="tag genre">RPG</span>
+                        <span class="tag difficulty">Hard</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tableWrapper" class="hidden">
+            <div id="filterBar">
+                <label>Status:
+                    <select id="statusFilter">
+                        <option value="all">All</option>
+                        <option value="unlocked">Unlocked</option>
+                        <option value="locked">Locked</option>
+                    </select>
+                </label>
+                <label>Name:
+                    <input type="text" id="nameFilter" placeholder="Type name...">
+                </label>
+                <label>Description:
+                    <input type="text" id="descFilter" placeholder="Type description...">
+                </label>
+            </div>
+            <table id="achievementsTable">
+                <thead>
+                    <tr>
+                        <th data-sort="icon">Icon</th>
+                        <th data-sort="name">Name</th>
+                        <th data-sort="description">Description</th>
+                        <th data-sort="status">Status</th>
+                        <th data-sort="time">Unlock Time</th>
+                        <th>Guide</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
