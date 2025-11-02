@@ -142,8 +142,9 @@ async function fetchAchievements(appId) {
             const total = achievementsWithGuides.length;
             const unlocked = achievementsWithGuides.filter(a => a.achieved).length;
             const percent = total ? Math.round((unlocked / total) * 100) : 0;
+
             if (progressBarEl) progressBarEl.style.width = `${percent}%`;
-            if (progressText) progressText.textContent = `${percent}%`;
+            if (progressText) progressText.textContent = `${unlocked}/${total} (${percent}%)`;
 
             if (chipTags) {
                 chipTags.innerHTML = "";
