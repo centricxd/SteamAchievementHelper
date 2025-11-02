@@ -44,7 +44,7 @@ function renderTable() {
         .forEach(a => {
             const tr = document.createElement("tr");
             tr.innerHTML = `
-                <td><img src="${a.icon}" alt="${a.displayName}"></td>
+                <td><img src="${a.icon}" class="${!a.achieved ? "locked" : ""}" alt="${a.displayName}"></td>
                 <td>${a.displayName}</td>
                 <td>${a.description}</td>
                 <td class="${a.achieved ? "achieved" : "locked"}">${a.achieved ? "Achieved" : "Locked"}</td>
@@ -87,12 +87,12 @@ document.querySelectorAll("#achievementsTable th[data-sort]").forEach(th => {
 
 async function fetchAchievements(appId) {
     try {
-        // --- 1️⃣ Player achievements ---
+        // --- Player achievements ---
         const resStats = await fetch(`${proxyUrl}https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?appid=${appId}&steamid=${steamID()}&key=${apiKey}`);
         const statsData = await resStats.json();
         if (!statsData.playerstats?.achievements) throw new Error("No achievements found");
 
-        // --- 2️⃣ Achievement schema ---
+        // ---       Achievement schema ---
         const resDefs = await fetch(`${proxyUrl}https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?appid=${appId}&key=${apiKey}`);
         const defsData = await resDefs.json();
         if (!defsData.game?.availableGameStats?.achievements) throw new Error("No achievement definitions found");
@@ -100,7 +100,7 @@ async function fetchAchievements(appId) {
         const playerAchievements = statsData.playerstats.achievements;
         const achievementDefs = defsData.game.availableGameStats.achievements;
 
-        // --- 3️⃣ Game details (fallback-safe) ---
+        // --- Game details (fallback-safe) ---
         let storeData = {};
         try {
             const resExtra = await fetch(`${proxyUrl}https://store.steampowered.com/api/appdetails?appids=${appId}`);
@@ -110,8 +110,8 @@ async function fetchAchievements(appId) {
             console.warn("App details failed, continuing without store data.");
         }
 
-        // --- Map achievements ---
-        const guideLink = `https://steamcommunity.com/app/${appId}/guides/?searchText=&browsefilter=trend&browsesort=creationorder&requiredtags%5B%5D=Achievements&requiredtags%5B%5D=English`;
+        // // --- Map achievements ---
+        // const guideLink = `https://steamcommunity.com/app/${appId}/guides/?searchText=&browsefilter=trend&browsesort=creationorder&requiredtags%5B%5D=Achievements&requiredtags%5B%5D=English`;
 
         achievementsWithGuides = playerAchievements.map(playerAch => {
             const def = achievementDefs.find(d => d.name === playerAch.apiname);
@@ -122,11 +122,11 @@ async function fetchAchievements(appId) {
                 icon: def.icon || "",
                 achieved: !!playerAch.achieved,
                 unlocktime: playerAch.unlocktime ? new Date(playerAch.unlocktime * 1000).toLocaleString() : "Locked",
-                guide: guideLink
+                guide: `https://steamcommunity.com/app/${appId}/guides/?searchText=${def.displayName}+Achievement&browsefilter=trend&browsesort=creationorder&requiredtags%5B%5D=Achievements&requiredtags%5B%5D=English`
             };
         }).filter(Boolean);
 
-        // --- 4️⃣ Fill game chip ---
+        // ---  Fill game chip ---
         if (gameChip) {
             const img = gameChip.querySelector("img");
             const title = gameChip.querySelector(".chipDetails h3");
@@ -155,8 +155,9 @@ async function fetchAchievements(appId) {
                         chipTags.appendChild(span);
                     });
                 }
+
                 const guideTag = document.createElement("a");
-                guideTag.href = guideLink;
+                guideTag.href = `https://steamcommunity.com/app/${appId}/guides/?searchText=Achievement+Guide&browsefilter=trend&browsesort=creationorder&requiredtags%5B%5D=Achievements&requiredtags%5B%5D=English`;
                 guideTag.target = "_blank";
                 guideTag.className = "tag guide";
                 guideTag.textContent = "Guides";
