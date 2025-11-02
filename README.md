@@ -1,5 +1,7 @@
 # 🎮 Steam Achievements Helper
 
+![Steam Achievements Helper Preview](./Screenshot.png)
+
 A modern interface to fetch, filter, and visualize **Steam game achievements**.  
 Built for clarity integates directly with the Steam Web API and metadata sources like Steam Store
 
