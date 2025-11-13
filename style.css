@@ -43,7 +43,8 @@ h2 {
 
 .login {
     display: flex;
-    gap: 8px;
+    gap: 8px;  gap: 8px;
+  flex-wrap: wrap;
 }
 
 input,
@@ -89,7 +90,7 @@ label {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     position: relative;
-    overflow: show;
+    overflow: auto;
 }
 
 
@@ -292,4 +293,11 @@ a:hover {
 .tag.difficulty {
     background: #f44;
     color: #fff;
+}
+
+.help {
+    cursor: pointer;
+    border-bottom: 1px dotted #888;
+    font-size: 16px;
+    margin-left: 4px;
 }
